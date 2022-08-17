@@ -1,0 +1,415 @@
+Program Captcha_Pykon_P4D_VCL4Py_Routines;
+
+var  PyForm: TForm; pyMemo: TMemo;
+     avar: string; pyval: variant; pyint: integer;
+     
+const OUT_TT_ONLY_PRECIS = 7;
+      FF_SWISS	= 32;
+      TRansparent =1;
+
+//https://lazarus-ccr.sourceforge.io/docs/lcl/lcltype/out_tt_only_precis.html
+     
+procedure TForm1letrasAnguladas(c : string; angulo : integer; 
+                                     nextPos : Integer; image1: TImage);
+var
+   logfont:TLogFont;
+   font: Thandle;
+   //Image1: TImage;
+   //form: TForm;
+begin
+
+   LogFont.lfheight:=45;
+   logfont.lfwidth:=10;
+   logfont.lfweight:=900;
+
+   LogFont.lfEscapement:=angulo;
+   logfont.lfcharset:=1;
+   logfont.lfoutprecision:=OUT_TT_ONLY_PRECIS;
+   logfont.lfquality:= DEFAULT_QUALITY;
+   logfont.lfpitchandfamily:= FF_SWISS;
+   logfont.lfUnderline := 0;
+   logfont.lfStrikeOut := 0;
+   font:=createfontindirect(logfont);
+   //image1.canvas.brush.color:= clblack;
+   Selectobject(Image1.canvas.handle,font);
+   SetTextColor(Image1.canvas.handle,rgb(0,180,0));
+   SetBKmode(Image1.canvas.handle,TRansparent);
+   SetTextColor(Image1.canvas.handle,rgb(Random(255),Random(255),Random(255)));
+   Image1.canvas.textout(nextPos,Image1.Height div 3,c);
+   //SetTextColor(Image1.canvas.handle,rgb(Random(255),Random(255),Random(255)));
+   // image1.canvas.brush.color:= clblack;
+  
+   deleteobject(font);
+end;
+     
+const PYDLL32 = 'C:\users\breitsch\AppData\Local\Programs\Python\Python37-32\python32.dll'; 
+var vX:integer; strCaptcha: string; form1: TForm; image1: TImage;
+
+const PyGiniFunc =
+   'def gini_index(groups, classes):  '+LF+
+   '	n_instances = float(sum([len(group) for group in groups])) '+LF+
+   '	# sum weighted Gini index for each group                   '+LF+
+   '	gini = 0.0                                                 '+LF+
+   '	for group in groups:                                       '+LF+
+   '		size = float(len(group))                                '+LF+
+   '		# avoid divide by zero                                  '+LF+
+   '		if size == 0:                                           '+LF+
+   '			continue                                             '+LF+
+   '		score = 0.0                                             '+LF+
+   '		# score the group based on the score for each class     '+LF+
+   '		for class_val in classes:                               '+LF+
+   '			p = [row[-1] for row in group].count(class_val)/size '+LF+
+   '			score += p * p                                       '+LF+
+   '		# weight the group score by its relative size           '+LF+
+   '		gini += (1.0 - score) * (size / n_instances)            '+LF+
+   '	return gini                                                ';
+                                                            
+begin  //@main
+  //PythonEngine1.Free;
+  //myloadscript2:= filetostring(PYSCRIPT2);
+  //Memo1.beginUpdate;
+  
+   
+   form1:= TForm.create(self);
+   image1:= TImage.create(self);
+   with form1 do begin
+     setbounds(100,100, 315,250)
+     color:= clblack;
+     show;
+     with image1 do begin
+       parent:= form1;
+       color:= clblack;
+       setbounds(0,0,315,220)
+       for it := 0 to 15 do begin
+         Canvas.Pen.Color := Random(100000);
+         Canvas.MoveTo(random(Width), random(Height));
+         Canvas.LineTo(random(Width), random(Height));
+       end;
+     end;  
+   end;
+   
+   //Procedure azuSaveForm( F : TForm; Filename : string)');
+   azuSaveForm(form1, exepath+'savecaptcha.txt');
+     
+  strCaptcha:= 'str-Captcha'
+  for vX := 1 to Length(strCaptcha) do
+      TForm1letrasAnguladas(strCaptcha[vX],Random(600)+1,25*vX-15, image1);
+   
+   //*)
+   //azuSaveForm(form1, exepath+'savecaptcha.txt');
+   
+      
+    with TPythonEngine.Create(Nil) do begin
+     pythonhome:= 'C:\users\breitsch\AppData\Local\Programs\Python\Python37-32\';
+     try
+       loadDLL;
+       //opendll(PYDLL32)        
+       Println('Decimal: '+ 
+             EvalStr('__import__("decimal").Decimal(0.1)'));
+       println(evalstr('sum([i for i in range(101)])'));
+       //execstr(filetostring(exepath+'EKON26\gini_split.py')); 
+       //execStr(PyGiniFunc) 
+       execstr(filetoString('C:\Program Files\Streaming\IBZ2021\Module2_3\EKON26\gini_split.py'));
+       println(evalstr('gini_index([[[1,1], [1,0]], [[1,1], [1,0]]], [0,1])'));    
+     except
+       raiseError;        
+     finally       
+       free;
+     end; 
+    end;    
+  
+  //register_PYthonGUI;
+  // print('dir p4d:: '+getDosOutput('py -3.7-32 -c "from delphivcl import *"',exePath));
+  //get a list of all p4d methods (vcl4python):
+  print('dir p4d:: '+
+  getDosOutput('py -3.7-32 -c "from delphivcl import *; '+
+                               'print(dir()[0:45])"',exePath));
+  writeln('host name: '+gethostname)
+  writeln('ip host name: '+getipaddress(gethostname));
+  writeln('getParentDirklib of box: '+getParentDirklib(exepath));
+  writeln('getLocaleDecimalSeparatorklib: '+getLocaleDecimalSeparatorklib);
+  writeln('#lines: '+itoa(getNumberOfLinesInStrFixedWordWrapklib(PyGiniFunc)));
+  writeln('getDateAsStringklib '+getDateAsStringklib(now));
+  writeln('getCurrentTimeStampklib '+getCurrentTimeStampklib);
+  
+  
+End.
+----app_template_loaded_code----
+----File newtemplate.txt not exists - now saved!----
+
+doc: https://stackoverflow.com/questions/23134820/unhandled-exception-at-multiarray-pyd-the-2nd-time-the-program-runs#23173191
+
+https://stackoverflow.com/questions/16779799/py-initialize-and-py-finalize-and-matplotlib
+
+maXbox_Starter86_3_Python4maXbox
+
+Doc: Destroying it calls Py_Finalize, which frees all memory allocated by the Python DLL.
+Or, if you're just using the Python API without the VCL wrappers, you can probably just call Py_NewInterpreter on your TPythonInterface object to get a fresh execution environment without necessarily discarding everything done before.
+
+Evil eval()
+
+You should never pass untrusted source to the eval() directly. As it is quite easy for the malicious user to wreak havoc on your system. For example, the following code can be used to delete all the files from the system.
+
+1 >>>
+2 eval('os.system("RM -RF /")') # command is deliberately capitalized
+3 >>>
+
+#  demo script
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.arange(0,8*np.pi,0.1)   # start,stop,step
+y = np.cos(x) *1/(1+x)
+plt.plot(x,y)
+plt.show()
+
+
+Ref: https://sourceforge.net/projects/maxbox/files/Examples/EKON/P4D/python37.dll/download
+--------------------------------------------------------
+dll EXCEPT Exception: There is already one instance of TPythonEngine running.
+TRUE
+Exception: Python is not properly initialized.
+PascalScript maXbox4 - RemObjects & SynEdit
+
+dll EXCEPT Exception: There is already one instance of TPythonEngine running.
+TRUE
+Exception: Python is not properly initialized.
+
+dll EXCEPT Exception: Access violation at address 00345A76 in module 'maXbox4.exe'. Read of address 4365636E.
+TRUE
+Exception: Access violation at address 6BA3BA66 in module 'python36.dll'. Read of address 000000AD.
+
+mapdll EXCEPT Exception: There is already one instance of TPythonEngine running.
+PythonOK TRUE
+ImportEXCEPT Exception: Access violation at address 6BA3BA66 in module 'python36.dll'. Read of address 000000AC.
+ mX4 executed: 26/07/2021 13:30:51  Runtime: 0:0:2.48  Memload: 71% use
+ 
+Example 3: Python multithreading
+
+All the programs above in this article are single-threaded programs. Here's an example of a multithreaded Python program.
+
+
+import threading 
+  
+def print_hello_three_times():
+  for i in range(3):
+    print("Hello")
+  
+def print_hi_three_times(): 
+    for i in range(3): 
+      print("Hi") 
+
+t1 = threading.Thread(target=print_hello_three_times)  
+t2 = threading.Thread(target=print_hi_three_times)  
+
+t1.start()
+t2.start()
+
+This package implements JSON support for FPC.
+
+You might want to have a look at the lazarus jsonviewer tool, written using
+fpJSON (see lazarus/tools/jsonviewer). It visualizes the fpJSON data and
+shows how to program using fpjson.
+
+JSON support consists of 3 parts:
+
+unit fpJSON contains the data representation. Basically, it defines a set of
+classes:
+
+TJSONData
++- TJSONNumber
+   +- TJSONIntegerNumber
+   +- TJSONFloatNumber
+   +- TJSONInt64Number
++- TJSONString
++- TJSONBoolean
++- TJSONNull
++- TJSONObject
++- TJSONArray
+
+The TJSONData.JSONType property is an enumerated:
+TJSONtype = (jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject);
+
+Which allows to determine the type of a value.
+
+Page 7: But the eval-uation of -> But the evaluation of
+page 8: Ans here's the -> And here's the
+page 10: The mentioned windows dll file for Python. > The mentioned windows dll file from Python.
+page 10: (I'll show that in the Tutor III). -> (I'll show that in the Part 3).
+page 14: so we use the same inter-preter as from a shell -> so we use the same  from a shell
+
+procedure TPythonEngine.DoRedirectIO;
+const
+  code = 'import sys'+LF+
+         'class DebugOutput:'+LF+
+         '  pyio = __import__("pyio")'+LF+
+         '  softspace=0'+LF+
+         '  encoding=None'+LF+
+         '  def write(self,message):'+LF+
+         '     self.pyio.write(message)'+LF+
+         '  def readline(self, size=None):'+LF+
+         '     return self.pyio.read(size)'+LF+
+         '  def flush(self):' + LF +
+         '     pass' + LF +
+         '  def isatty(self):' + LF +
+         '     return True' + LF +
+         'sys.old_stdin=sys.stdin'+LF+
+         'sys.old_stdout=sys.stdout'+LF+
+         'sys.old_stderr=sys.stderr'+LF+
+         'sys.stdin=sys.stderr=sys.stdout=DebugOutput()'+LF+#0;
+begin
+  if csDesigning in ComponentState then
+    Exit;
+  CheckPython;
+  if not Assigned(FIOPythonModule) then
+  begin
+    // create a new module called pyio
+    FIOPythonModule := TPythonModule.Create( Self );
+    with FIOPythonModule as TPythonModule do
+      begin
+        Engine := Self;
+        ModuleName := 'pyio';
+        AddMethod( 'write', pyio_write, 'write(String) -> None' );
+        AddMethod( 'read',  pyio_read,  'read() -> String' );
+        AddMethod( 'SetDelayWrites',  pyio_SetDelayWrites,  'SetDelayWrites(Boolean) -> None' );
+        AddMethod( 'SetMaxLines',  pyio_SetMaxLines,  'SetMaxLines(Integer) -> None' );
+        AddMethod( 'GetTypesStats',  pyio_GetTypesStats,  'GetTypesStats( [type name] ) -> a list of tuple (TypeName, InstanceCount, CreateHits, DeleteHits)' );
+      end;
+  end;
+  with FIOPythonModule as TPythonModule do
+    if not Initialized then
+      Initialize;
+  // execute the code
+  ExecString(code);
+  FIORedirected := True;
+end;
+
+https://tmssoftware.com/radoween/
+
+checks all initdefault
+
+1 procedure InitDefault(); virtual;
+2 procedure InitDefault(); override; TNNetMovingStdNormalization
+3 procedure InitDefault(); override; TNNetChannelShiftBase 
+4 procedure InitDefault(); override; TNNetChannelMul 
+5 procedure InitDefault(); override; TNNetCellBias 
+6 procedure InitDefault(); override; TNNetCellMul 
+7 procedure InitDefault(); override; TNNetChannelStdNormalization 
+8 procedure InitDefault(); override; TNNetConvolutionAbstract 
+9 procedure InitDefault(); override; TNNetDepthwiseConv 
+ 
+in maXbox 
+1 RegisterMethod('Procedure InitDefault( )'); TNNetDepthwiseConv
+2 TNNetConvolutionAbstract TNNetLayerConcatedWeights
+3 TNNetChannelStdNormalization
+4 TNNetCellMul
+5 TNNetCellBias
+6 TNNetChannelMul
+7 TNNetChannelShiftBase
+8 TNNetMovingStdNormalization
+9 RegisterMethod('Procedure InitDefault( )');
+
+ // Initializers
+      procedure InitUniform(Value: TNeuralFloat = 1);
+      procedure InitGaussian(Value: TNeuralFloat = 1);
+      procedure InitLeCunUniform(Value: TNeuralFloat = 1);
+      procedure InitHeUniform(Value: TNeuralFloat = 1);
+      procedure InitHeGaussian(Value: TNeuralFloat = 1);
+      procedure InitHeUniformDepthwise(Value: TNeuralFloat = 1);
+      procedure InitHeGaussianDepthwise(Value: TNeuralFloat = 1);
+      procedure InitSELU(Value: TNeuralFloat = 1);
+
+critical
+procedure TNeuralDataLoadingFit.FitLoading(pNN: TNNet; TrainingCnt,
+  ValidationCnt, TestCnt, pBatchSize, Epochs: integer;
+  pGetTrainingPair, pGetValidationPair,
+  pGetTestPair: TNNetGetPairFn);
+  
+procedure TNeuralImageFit.Fit(pNN: TNNet;
+  pImgVolumes, pImgValidationVolumes, pImgTestVolumes: TNNetVolumeList;
+  pNumClasses, pBatchSize, Epochs: integer);              
+
+  0.1.40
+C:\Program Files\Streaming\IBZ2021\Module2_3>pip uninstall delphivcl
+Found existing installation: delphivcl 0.1.31
+Uninstalling delphivcl-0.1.31:
+  Would remove:
+    c:\users\breitsch\appdata\local\programs\python\python37-32\lib\site-packages\delphivcl-0.1.31.dist-info\*
+    c:\users\breitsch\appdata\local\programs\python\python37-32\lib\site-packages\delphivcl\*
+  Would not remove (might be manually added):
+    c:\users\breitsch\appdata\local\programs\python\python37-32\lib\site-packages\delphivcl\Win64\DelphiVCL.pyd
+    c:\users\breitsch\appdata\local\programs\python\python37-32\lib\site-packages\delphivcl\__init__ - Kopie.py
+    c:\users\breitsch\appdata\local\programs\python\python37-32\lib\site-packages\delphivcl\moduledefs - Kopie.json
+    c:\users\breitsch\appdata\local\programs\python\python37-32\lib\site-packages\delphivcl\moduledefs.json
+    c:\users\breitsch\appdata\local\programs\python\python37-32\lib\site-packages\delphivcl\moduledefs.log
+Proceed (y/n)? y
+  Successfully uninstalled delphivcl-0.1.31
+
+C:\Program Files\Streaming\IBZ2021\Module2_3>pip install delphivcl
+Collecting delphivcl
+  Downloading delphivcl-0.1.40-cp37-cp37m-win32.whl (2.2 MB)
+     |¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦| 2.2 MB 1.7 MB/s
+Installing collected packages: delphivcl
+Successfully installed delphivcl-0.1.40
+WARNING: You are using pip version 20.1.1; however, version 22.2.2 is available.
+You should consider upgrading via the 'c:\users\breitsch\appdata\local\programs\python\python37-32\python.exe -m pip install --upgrade pip' command.
+
+C:\Program Files\Streaming\IBZ2021\Module2_3>py
+
+C:\Program Files\Streaming\IBZ2021\Module2_3>py -0
+Installed Pythons found by py Launcher for Windows
+ -3.8-64 *
+ -3.7-32
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+  
+
+
+    
