@@ -1,0 +1,458 @@
+//****************API Tester**************************
+program Rapid_API_Schema;
+
+//https://www.techtarget.com/searchapparchitecture/definition/OpenAPI-Specification
+//http://www.softwareschule.ch/examples/qrcode.txt
+//https://rapidapi.com/maxkleiner1/api/maxbox4/tutorials
+
+
+//https://shazam.p.rapidapi.com/search?term=kiss%20the%20rain
+
+Const URLShazamAPI=
+        'https://shazam.p.rapidapi.com/search?term=%s&local=%s&limit=%d';
+        
+Const X_Rapidapi_Key = 'df61a35825msh66c9514de953a7ap192bcfjsn16a_________';        
+
+//'http://chart.apis.google.com/chart?chs=%dx%d&cht=qr&chld=%s&chl=%s';
+
+//Const /search?term=kiss%20the%20rain&locale=en-US&offset=0&limit=5 HTTP/1.1
+
+Const JSTestResponse = '{"tracks":{"hits":[{"track":{"layout":"5","type":"MUSIC","key":"20066955","title":"Kiss The Rain","subtitle":"Billie Myers","share":{"subject":"Kiss The Rain - Billie Myers","text":"I used Shazam to discover Kiss The Rain by Billie Myers.","href":"https://www.shazam.com/track/20066955/kiss-the-rain","image":"https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/02/74/5a/02745ac2-cbfb-a90a-b970-7449be5d4c42/06UMGIM10734.rgb.jpg/400x400cc.jpg","twitter":"I used @Shazam to discover Kiss The Rain by Billie Myers.","html":"https://www.shazam.com/snippets/email-share/20066955?lang=en-US&country=US","avatar":"https://is5-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800cc.jpg","snapchat":"https://www.shazam.com/partner/sc/track/20066955"},"images":{"background":"https://is5-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800cc.jpg","coverart":"https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/02/74/5a/02745ac2-cbfb-a90a-b970-7449be5d4c42/06UMGIM10734.rgb.jpg/400x400cc.jpg","coverarthq":"https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/02/74/5a/02745ac2-cbfb-a90a-b970-7449be5d4c42/06UMGIM10734.rgb.jpg/400x400cc.jpg","joecolor":"b:fffffdp:0b0a08s:313029t:3c3b39q:5a5954"},"hub":{"type":"APPLEMUSIC","image":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic_{scalefactor}.png","actions":[{"name":"apple","type":"applemusicplay","id":"1444027955"},{"name":"apple","type":"uri","uri":"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a7/44/d7/a744d7c6-d06c-17a2-ad19-cd01b46a8cbd/mzaf_8512763237108905867.plus.aac.ep.m4a"}],"options":[{"caption":"OPEN","actions":[{"name":"hub:applemusic:deeplink","type":"applemusicopen","uri":"https://music.apple.com/us/album/kiss-the-rain/1444027943?i=1444027955&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"},{"name":"hub:applemusic:deeplink","type":"uri","uri":"https://music.apple.com/us/album/kiss-the-rain/1444027943?i=1444027955&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"}],"beacondata":{"type":"open","providername":"applemusic"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/overflow-open-option_{scalefactor}.png","type":"open","listcaption":"Open in Apple Music","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic-overflow_{scalefactor}.png","colouroverflowimage":false,"providername":"applemusic"},{"caption":"BUY","actions":[{"type":"uri","uri":"https://itunes.apple.com/us/album/kiss-the-rain/1444027943?i=1444027955&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=itunes&itsct=Shazam_ios"}],"beacondata":{"type":"buy","providername":"itunes"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","type":"buy","listcaption":"Buy on iTunes","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","colouroverflowimage":false,"providername":"itunes"}],"providers":[{"caption":"Open in Spotify","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/spotify-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/spotify_{scalefactor}.png"},"actions":[{"name":"hub:spotify:searchdeeplink","type":"uri","uri":"spotify:search:Kiss%20The%20Rain%20Billie%20Myers"}],"type":"SPOTIFY"},{"caption":"Open in Deezer","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/deezer-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/deezer_{scalefactor}.png"},"actions":[{"name":"hub:deezer:searchdeeplink","type":"uri","uri":"deezer-query://www.deezer.com/play?query=%7Btrack%3A%27Kiss+The+Rain%27%20artist%3A%27Billie+Myers%27%7D"}],"type":"DEEZER"}],"explicit":false,"displayname":"APPLE MUSIC"},"artists":[{"id":"42","adamid":"99951"}],"url":"https://www.shazam.com/track/20066955/kiss-the-rain"},"snippet":"Kiss the rain (Kiss the rain)"},{"track":{"layout":"5","type":"MUSIC","key":"40099833","title":"Kiss The Rain","subtitle":"Yiruma","share":{"subject":"Kiss The Rain - Yiruma","text":"I used Shazam to discover Kiss The Rain by Yiruma.","href":"https://www.shazam.com/track/40099833/kiss-the-rain","image":"https://is3-ssl.mzstatic.com/image/thumb/Music115/v4/0a/d1/e8/0ad1e89c-df29-a43e-9852-eb6ece2dd556/21UMGIM24785.rgb.jpg/400x400cc.jpg","twitter":"I used @Shazam to discover Kiss The Rain by Yiruma.","html":"https://www.shazam.com/snippets/email-share/40099833?lang=en-US&country=US","avatar":"https://is4-ssl.mzstatic.com/image/thumb/Features115/v4/3f/84/4e/3f844e97-8c23-b64d-87f1-d536e99f80e9/mzl.rsxdpqqq.jpg/800x800cc.jpg","snapchat":"https://www.shazam.com/partner/sc/track/40099833"},"images":{"background":"https://is4-ssl.mzstatic.com/image/thumb/Features115/v4/3f/84/4e/3f844e97-8c23-b64d-87f1-d536e99f80e9/mzl.rsxdpqqq.jpg/800x800cc.jpg","coverart":"https://is3-ssl.mzstatic.com/image/thumb/Music115/v4/0a/d1/e8/0ad1e89c-df29-a43e-9852-eb6ece2dd556/21UMGIM24785.rgb.jpg/400x400cc.jpg","coverarthq":"https://is3-ssl.mzstatic.com/image/thumb/Music115/v4/0a/d1/e8/0ad1e89c-df29-a43e-9852-eb6ece2dd556/21UMGIM24785.rgb.jpg/400x400cc.jpg","joecolor":"b:0f1513p:f6f1ees:d7d6d1t:c7c5c2q:afafab"},"hub":{"type":"APPLEMUSIC","image":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic_{scalefactor}.png","actions":[{"name":"apple","type":"applemusicplay","id":"1576663126"},{"name":"apple","type":"uri","uri":"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/b5/71/fd/b571fdea-62b9-64e8-1531-3d845cf6ee58/mzaf_8999534599011571502.plus.aac.ep.m4a"}],"options":[{"caption":"OPEN","actions":[{"name":"hub:applemusic:deeplink","type":"applemusicopen","uri":"https://music.apple.com/us/album/kiss-the-rain/1576662868?i=1576663126&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"},{"name":"hub:applemusic:deeplink","type":"uri","uri":"https://music.apple.com/us/album/kiss-the-rain/1576662868?i=1576663126&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"}],"beacondata":{"type":"open","providername":"applemusic"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/overflow-open-option_{scalefactor}.png","type":"open","listcaption":"Open in Apple Music","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic-overflow_{scalefactor}.png","colouroverflowimage":false,"providername":"applemusic"},{"caption":"BUY","actions":[{"type":"uri","uri":"https://itunes.apple.com/us/album/kiss-the-rain/1576662868?i=1576663126&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=itunes&itsct=Shazam_ios"}],"beacondata":{"type":"buy","providername":"itunes"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","type":"buy","listcaption":"Buy on iTunes","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","colouroverflowimage":false,"providername":"itunes"}],"providers":[{"caption":"Open in Spotify","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/spotify-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/spotify_{scalefactor}.png"},"actions":[{"name":"hub:spotify:searchdeeplink","type":"uri","uri":"spotify:search:Kiss%20The%20Rain%20Yiruma"}],"type":"SPOTIFY"},{"caption":"Open in Deezer","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/deezer-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/deezer_{scalefactor}.png"},"actions":[{"name":"hub:deezer:searchdeeplink","type":"uri","uri":"deezer-query://www.deezer.com/play?query=%7Btrack%3A%27Kiss+The+Rain%27%20artist%3A%27Yiruma%27%7D"}],"type":"DEEZER"}],"explicit":false,"displayname":"APPLE MUSIC"},"artists":[{"id":"42","adamid":"73406786"}],"url":"https://www.shazam.com/track/40099833/kiss-the-rain"}}]},"artists":{"hits":[{"artist":{"avatar":"https://is3-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800bb.jpg","name":"Billie Myers","verified":false,"weburl":"https://music.apple.com/us/artist/billie-myers/99951","adamid":"99951"}},{"artist":{"avatar":"https://is5-ssl.mzstatic.com/image/thumb/Music/v4/a3/0f/07/a30f0744-d6a3-5e89-34c2-90db76b6b3c5/5054316029410_cover.jpg/800x800ac.jpg","name":"Kiss The Rain","verified":false,"weburl":"https://music.apple.com/us/artist/kiss-the-rain/881889878","adamid":"881889878"}},{"artist":{"avatar":"https://is2-ssl.mzstatic.com/image/thumb/Features115/v4/3f/84/4e/3f844e97-8c23-b64d-87f1-d536e99f80e9/mzl.rsxdpqqq.jpg/800x800bb.jpg","name":"Yiruma","verified":false,"weburl":"https://music.apple.com/us/artist/yiruma/73406786","adamid":"73406786"}}]}}';
+
+
+ procedure getMusicAPI(term, local: string; limit: byte);
+ var res: string; i:integer;
+ begin
+ with TWinApiDownload.create do begin
+    Useragent:= 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'; 
+    Url:= Format(URLShazamAPI,[HTTPEncode(term),local, limit]);
+    //Url:= 'https://shazam.p.rapidapi.com/search',';
+    writeln(ErrorCodeToMessageString(CheckURL(url)));
+    writeln(url)
+    try
+       Download1(res);
+       writeln('debug log: '+ res);
+       with TJSONObject.create4(res) do begin 
+         //writeln(tostring2(2,3))
+         if CheckURL(Url) = 200 then
+           for i:= 0 to getJSONArray('tracks').length-1 do 
+             writeln(itoa(i)+':'+getJSONArray('hits').getJSONObject(i).getString('title'));  
+         free;
+       end; 
+    except
+      writeln('E: '+ExceptiontoString(exceptiontype, exceptionparam));
+    finally        
+     free; //ApiDownload
+    end; 
+  end;
+ end; 
+ 
+function getMusicAPI_Com(term, local: string; limit: byte): string;
+var
+  Url,API_KEY, sr, source: string;
+  jo, locate: TJSONObject;
+  httpRq,hr: Olevariant;
+begin
+  httpRq:= CreateOleObject('WinHttp.WinHttpRequest.5.1');
+  // Open an HTTP connection.  
+  try              
+    hr:= httpRq.Open('GET',Format(URLShazamAPI,[HTTPEncode(term),local, limit]), false);
+    httpRq.setRequestheader('user-agent',
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0');
+    //httpRq.setRequestheader('content-type','application/json');  
+    httpRq.setRequestheader('X-RapidAPI-Host','shazam.p.rapidapi.com');   
+    httpRq.setRequestheader('X-RapidAPI-Key',X_Rapidapi_Key);           
+    if hr= S_OK then HttpRq.Send();//get
+     // HttpRq.Send(Format(URLShazamAPI,[HTTPEncode(term),local, limit]));
+     /// Send HTTP Post Request & get Responses. 
+    (* HttpRq.Send('term='+HTTPEncode(term)+CRLF+
+                          'local='+local+CRLF+
+                          'limit='+itoa(limit)); *)  
+    
+    If HttpRq.Status = 200 Then
+       result:= ReplaceRegExpr('\d\d{4,12}[},]',HttpRq.responseText,'',false)
+    Else result:= 'Failed at getting response: '+itoa(HttpRq.Status)+HttpRq.responseText;
+    //writeln(httpReq.responseText)  
+  finally
+    httprq:= unassigned;  
+  end;
+end;  
+
+Const PYHOME32 = 'C:\Users\max\AppData\Local\Programs\Python\Python36-32\';
+
+procedure getURLScanAPI_Python(ftopic: string); 
+begin
+  with TPythonEngine.Create(Nil) do begin
+    pythonhome:= PYHOME32;
+    loadDLL();
+    try
+      Execstring('import urllib.request, json, requests'); 
+      ExecStr('headers={"Content-Type":"application/json"}')
+      ExecStr('data = {"url": "'+ftopic+'", "visibility": "public"}')
+      ExecStr('resp = requests.post("https://urlscan.io/api/v1/scan/",headers=headers, '+
+                                                'data=json.dumps(data))');
+      Print(EvalStr('resp'));
+      print(EvalStr('resp.json()'));
+    except
+      raiseError;
+    finally
+      //unloadDll;
+      Free;
+    end;    
+  end;
+end;
+
+//https://stackoverflow.com/questions/9713491/delphi-decode-json-utf8-escaped-text
+function UnescapeJSON(const s: AnsiString): string;
+var
+  i: Integer;
+  j: Integer;
+  c: Integer;
+begin
+  // Make result at least large enough. This prevents too many reallocs
+  SetLength(Result, Length(s));
+  i := 1;
+  j := 1;
+  while i <= Length(s) do begin
+    if s[i] = '\' then begin
+      if i < Length(s) then begin
+        // escaped backslash?
+        if s[i + 1] = '\' then begin
+          Result[j] := '\';
+          inc2(i, 2);
+        end
+        // convert hex number to WideChar
+        else if (s[i + 1] = 'u') and (i + 1 + 4 <= Length(s))
+                and TryStrToInt('$' + string(Copy(s, i+2, 4)), c) then begin
+          inc2(i, 6);
+          Result[j] := Chr(c); //WideChar(c);
+        end else begin
+          raise Exception.CreateFmt('Invalid code at position %d', [i]);
+        end;
+      end else begin
+        raise Exception.Create('Unexpected end of string');
+      end;
+    end else begin
+      Result[j] := WideChar(s[i]);
+      inc(i);
+    end;
+    inc(j);
+  end;
+
+  // Trim result in case we reserved too much space
+  SetLength(Result, j - 1);
+end;
+
+const
+  NormalizationC = 1;
+
+function NormalizeStringA(NormForm: Integer; lpSrcString: string; cwSrcLength: Integer;
+ lpDstString: string; cwDstLength: Integer): Integer; {stdcall;}    //as widechar fix
+                   external 'NormalizeString@Normaliz.dll stdcall';
+ 
+ //function  MyGetTickCount: Longint;
+   // external 'GetTickCount@kernel32.dll stdcall';
+ 
+
+function Normalize(const s: string): string;
+var
+  newLength: integer;
+begin
+  // in NormalizationC mode the result string won't grow longer than the input string
+  SetLength(Result, Length(s));
+  //newLength:= NormalizeString(NormalizationC,PChar(s),Length(s),PChar(Result), Length(Result));
+  newLength := NormalizeStringA(NormalizationC, (s), Length(s), (Result), Length(Result));
+  //Function IcsNormalizeString( const S : UnicodeString; NormForm : TIcsNormForm):UnicodeString;
+  SetLength(Result, newLength);
+end;
+
+const
+  ESCAPE_CHAR = '\';
+  QUOTE_CHAR = '"';
+  EXCEPTION_FMT = 'Invalid escape at position %d';
+
+function JSONUnescape(const Source: string; CRLF: string {= #13#10}): string;
+var
+  EscapeCharPos, TempPos: Integer;
+  Temp: string;
+  IsQuotedString: Boolean;
+begin
+  if CRLF = '' then CRLF:= #13#10;
+  result := '';
+  IsQuotedString := (Source[1] = QUOTE_CHAR) and
+    (Source[Length(Source)] = QUOTE_CHAR);
+  EscapeCharPos := Pos(ESCAPE_CHAR, Source);
+  TempPos := 1;
+  while EscapeCharPos > 0 do begin
+    result := result + Copy(Source, TempPos, EscapeCharPos - TempPos);
+    TempPos := EscapeCharPos;
+    if EscapeCharPos < Length(Source) - booltoint(IsQuotedString) then
+      case Source[EscapeCharPos + 1] of
+        't':
+          Temp := #9;
+        'n':
+          Temp := CRLF;
+        '\':
+          Temp := '\';
+        '"':
+          Temp := '"';
+        'u':
+          begin
+            if EscapeCharPos + 4 < Length(Source) - Integer(IsQuotedString) then
+              Temp := Chr(StrToInt('$' + Copy(Source, EscapeCharPos + 2, 4)))
+            else begin
+              raise Exception.Create(Format(EXCEPTION_FMT, [EscapeCharPos]));
+            end;
+            Inc2(TempPos, 4);             
+          end;
+      else begin
+        Xraise (Exception.Create(Format(EXCEPTION_FMT, [EscapeCharPos])));       
+       end;
+      end
+    else begin
+      Xraise (Exception.Create(Format(EXCEPTION_FMT, [EscapeCharPos])));
+    end; 
+    Inc2(TempPos, 2);
+    result := result + Temp;
+    EscapeCharPos := PosEx(ESCAPE_CHAR, Source, TempPos);
+  end;
+  result:= result + Copy(Source, TempPos, Length(Source) - TempPos + 1);
+end;
+
+                  
+function GetShortPathName(lname, sname: pchar; mpath: longint): bool;
+  external 'GetShortPathNameW@kernel32.dll stdcall';
+
+var  
+  T0 : int64;
+  n, col, Count: NativeInt;   
+// FPC has no Big mumbers implementation, Int64 will suffice.
+ 
+procedure GetDigitalRoot(Value: Int64; Base: Byte; var DRoot, Pers: Integer);
+var
+  DigitSum: Int64;
+begin
+  Pers := 0;
+  repeat
+    Inc(Pers);
+    DigitSum := 0;
+    while Value > 0 do begin
+      //Inc2(DigitSum, Value mod Base);
+      DigitSum:= digitsum +  (Value mod Base);
+      Value := Value div Base;
+    end;
+    Value := DigitSum;
+  until Value < Base;
+  DRoot := Value;
+End;  
+
+const
+  // usable up to 36-Base
+  DigitSymbols = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXY';
+
+function IntToStrBase(Value: Int64; Base: Byte):String;
+begin
+  Result := '';
+  while Value > 0 do begin
+    Result := DigitSymbols[Value mod Base+1] + Result;
+    Value := Value div Base;
+  End;
+end;  
+  
+procedure Display(const Value: Int64; Base: Byte {= 10});
+var
+  DRoot, Pers: Integer;
+  StrValue: string;
+begin
+  GetDigitalRoot(Value, Base, DRoot, Pers);
+  WriteLn(Format('%s(%d) has additive persistence %d and digital root %d.',
+    [IntToStrBase(Value, Base), Base, Pers, DRoot]));
+End;  
+ 
+begin  //@main
+  //maxform1.ShellStyle1click(self)
+  maxform1.Console1Click(self)
+  
+  WriteLn('--- Examples in 10-Base ---');
+  Display(627615,10);
+  Display(39390,10);
+  Display(588225,10);
+  Display(393900588225,10);
+ 
+  WriteLn('--- Examples in 16-Base ---');
+  Display(627615, 16);
+  Display(39390, 16);
+  Display(588225, 16);
+  Display(393900588225, 16);
+ 
+ (* T0:= IcsGetTickCOunt64;
+  count:= 0;
+  //processmessagesOFF;
+  For n := 1 to 100000 {*100} do
+    inc2(count,Ord(IsEven(n)));
+  writeln('Count of practical numbers til 100,000  '+
+                 itoa(count) + '  '+flots((ICsGetTickCount64-t0) / 1000)+' s');
+  //processmessagesON;              
+  //*) 
+  
+  //getMusicAPI('kiss the rain' ,'en-US', 5);
+  
+  //writeln(getMusicAPI_Com('kiss the rain' ,'en-US', 3));
+  
+  with TJSONObject.create4(JSTestResponse) do begin 
+    //if CheckURL(Url) = 200 then
+    //writeln(botostr(IsUTF16File(JSTestResponse)));
+    //stringify
+    //valueToString
+    writeln('debuglog len: '+
+        itoa(getJSONObject('artists').getJSONArray('hits').length));
+    for it:= 0 to getJSONObject('artists').getJSONArray('hits').length-1 do 
+      writeln((UnescapeJSON(ALUTF8HTMLDecode(itoa(it)+':'+
+        getJSONObject('artists').getJSONArray('hits').getJSONObject(it).getString('artist'))))); 
+        //writeln(toString1(5))    
+    free;
+  end; 
+  
+  //writeln(JSONUnescape('"\u2764Love\tAPI\u2764"', #13#10)); // {= #13#10})   
+  //writeln(JSONUnescape('\\\Invalid escaped text',''));
+  //Exception: Invalid escape at position 3.    
+  
+End.
+
+Doc: https://rapidapi.com/collection/list-of-free-apis
+
+https://stackoverflow.com/questions/9713491/delphi-decode-json-utf8-escaped-text
+12 
+\uXXXX is the JSON Unicode escape notation (X is hexadecimal).
+
+
+  ref:  
+--------------------------------------------------------
+TWinApiDownload = class(TObject)
+  private
+    fEventWorkStart : TEventWorkStart;
+    fEventWork : TEventWork;
+    fEventWorkEnd : TEventWorkEnd;
+    fEventError : TEventError;
+    fURL : string;
+    fUserAgent : string;
+    fStop : Boolean;
+    fActive : Boolean;
+    fCachingEnabled : Boolean;
+    fProgressUpdateInterval : Cardinal;
+    function GetIsActive : Boolean;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function CheckURL(aURL: string) : Integer;
+    function Download(Stream : TStream) : Integer; overload;
+    function Download(var res : string) : Integer; overload;
+    function ErrorCodeToMessageString(aErrorCode : Integer) : string;
+    procedure Stop;
+    procedure Clear;
+    property UserAgent : string read fUserAgent write fUserAgent;
+    property URL : string read fURL write fURL;
+    property DownloadActive : Boolean read GetIsActive;
+    property CachingEnabled : Boolean read fCachingEnabled write fCachingEnabled;
+    property UpdateInterval:Cardinal read fProgressUpdateInterval write fProgressUpdateInterval;
+    property OnWorkStart : TEventWorkStart read fEventWorkStart write fEventWorkStart;
+    property OnWork : TEventWork read fEventWork write fEventWork;
+    property OnWorkEnd : TEventWorkEnd read fEventWorkEnd write fEventWorkEnd;
+    property OnError : TEventError read fEventError write fEventError;
+  end;  
+  
+  
+procedure SIRegister_TJSONObject(CL: TPSPascalCompiler);
+begin
+  //with RegClassS(CL,'TZAbstractObject', 'TJSONObject') do
+  with CL.AddClassN(CL.FindClass('TZAbstractObject'),'TJSONObject') do
+  begin
+    RegisterMethod('Constructor create;');
+    RegisterMethod('Constructor create1( jo : TJSONObject; sa : array of string);');
+    RegisterMethod('Constructor create2( x : JSONTokener);');
+    RegisterMethod('Constructor create3( map : TStringList);');
+    RegisterMethod('Constructor create4( s : string);');
+    RegisterMethod('Procedure clean');
+    Function clone : TZAbstractObject');
+    Function accumulate( key : string; value : TZAbstractObject) : TJSONObject');
+    Function get( key : string) : TZAbstractObject');
+    Function getBoolean( key : string) : boolean');
+    Function getDouble( key : string) : double');
+    Function getInt( key : string) : integer');
+    Function getJSONArray( key : string) : TJSONArray');
+    Function getJSONObject( key : string) : TJSONObject');
+    Function getString( key : string) : string');
+    Function has( key : string) : boolean');
+    Function isNull( key : string) : boolean');
+    Function keys : TStringList');
+    Function length : integer');
+    Function names : TJSONArray');
+    Function numberToString( n : _Number) : string');
+    Function valueToString( value : TZAbstractObject) : string;');
+    Function valueToString1( value : TZAbstractObject; indentFactor, indent : integer) : string;');
+    Function opt( key : string) : TZAbstractObject');
+    Function optBoolean( key : string) : boolean;');
+    Function optBoolean1( key : string; defaultValue : boolean) : boolean;');
+    Function optDouble( key : string) : double;');
+    Function optDouble1( key : string; defaultValue : double) : double;');
+    Function optInt( key : string) : integer;');
+    Function optInt1( key : string; defaultValue : integer) : integer;');
+    Function optString( key : string) : string;');
+    Function optString1( key : string; defaultValue : string) : string;');
+    Function optJSONArray( key : string) : TJSONArray;');
+    Function optJSONObject( key : string) : TJSONObject;');
+    Function put( key : string; value : boolean) : TJSONObject;');
+    Function put1( key : string; value : double) : TJSONObject;');
+    Function put2( key : string; value : integer) : TJSONObject;');
+    Function put3( key : string; value : string) : TJSONObject;');
+    Function put4( key : string; value : TZAbstractObject) : TJSONObject;');
+    Function putOpt( key : string; value : TZAbstractObject) : TJSONObject');
+    Function quote( s : string) : string');
+    Function remove( key : string) : TZAbstractObject');
+    Procedure assignTo( json : TJSONObject)');
+    Function toJSONArray( names : TJSONArray) : TJSONArray');
+    Function toString1( indentFactor : integer) : string;');
+    Function toString2( indentFactor, indent : integer) : string;');
+    RegisterMethod('Function NULL : NULL');
+  end;
+end;
+  
+
+E: Exception: Access violation at address 01F0CC04 in module 'maXbox4.exe'. Read of address 00000000.
+Failed at getting response:415HTTP 415 Unsupported Media Type
+Failed at getting response: 503503 - Service Unavailable
+  
+C:\maXbox\works2021\maxbox4>py
+Python 3.7.3 (v3.7.3:ef4ec6ed12, Mar 25 2019, 22:22:05) [MSC v.1916 64 bit (AMD6
+4)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import http.client
+>>>
+>>> conn = http.client.HTTPSConnection("nlp-translation.p.rapidapi.com")
+>>> payload = "text=Hello%20World&to=es&from=en"
+>>> headers = {
+...     'content-type': "application/x-www-form-urlencoded",
+...     'X-RapidAPI-Host': "nlp-translation.p.rapidapi.com",
+...     'X-RapidAPI-Key': "df61a35825msh66c9514de953a7ap192bcfjsn16a3d1018ce3"
+...     }
+>>> conn.request("POST", "/v1/translate", payload, headers)
+>>>
+>>> res = conn.getresponse()
+>>> data = res.read()
+>>> print(data.decode("utf-8"))
+{"message":"You are not subscribed to this API."}
+>>> Failed at getting response: 503503 - Service Unavailable
+  
+{"tracks":{"hits":[{"track":{"layout":"5","type":"MUSIC","key":"20066955","title":"Kiss The Rain","subtitle":"Billie Myers","share":{"subject":"Kiss The Rain - Billie Myers","text":"I used Shazam to discover Kiss The Rain by Billie Myers.","href":"https://www.shazam.com/track/20066955/kiss-the-rain","image":"https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/02/74/5a/02745ac2-cbfb-a90a-b970-7449be5d4c42/06UMGIM10734.rgb.jpg/400x400cc.jpg","twitter":"I used @Shazam to discover Kiss The Rain by Billie Myers.","html":"https://www.shazam.com/snippets/email-share/20066955?lang=en-US&country=US","avatar":"https://is5-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800cc.jpg","snapchat":"https://www.shazam.com/partner/sc/track/20066955"},"images":{"background":"https://is5-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800cc.jpg","coverart":"https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/02/74/5a/02745ac2-cbfb-a90a-b970-7449be5d4c42/06UMGIM10734.rgb.jpg/400x400cc.jpg","coverarthq":"https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/02/74/5a/02745ac2-cbfb-a90a-b970-7449be5d4c42/06UMGIM10734.rgb.jpg/400x400cc.jpg","joecolor":"b:fffffdp:0b0a08s:313029t:3c3b39q:5a5954"},"hub":{"type":"APPLEMUSIC","image":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic_{scalefactor}.png","actions":[{"name":"apple","type":"applemusicplay","id":"1444027955"},{"name":"apple","type":"uri","uri":"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a7/44/d7/a744d7c6-d06c-17a2-ad19-cd01b46a8cbd/mzaf_8512763237108905867.plus.aac.ep.m4a"}],"options":[{"caption":"OPEN","actions":[{"name":"hub:applemusic:deeplink","type":"applemusicopen","uri":"https://music.apple.com/us/album/kiss-the-rain/1444027943?i=1444027955&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"},{"name":"hub:applemusic:deeplink","type":"uri","uri":"https://music.apple.com/us/album/kiss-the-rain/1444027943?i=1444027955&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"}],"beacondata":{"type":"open","providername":"applemusic"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/overflow-open-option_{scalefactor}.png","type":"open","listcaption":"Open in Apple Music","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic-overflow_{scalefactor}.png","colouroverflowimage":false,"providername":"applemusic"},{"caption":"BUY","actions":[{"type":"uri","uri":"https://itunes.apple.com/us/album/kiss-the-rain/1444027943?i=1444027955&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=itunes&itsct=Shazam_ios"}],"beacondata":{"type":"buy","providername":"itunes"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","type":"buy","listcaption":"Buy on iTunes","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","colouroverflowimage":false,"providername":"itunes"}],"providers":[{"caption":"Open in Spotify","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/spotify-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/spotify_{scalefactor}.png"},"actions":[{"name":"hub:spotify:searchdeeplink","type":"uri","uri":"spotify:search:Kiss%20The%20Rain%20Billie%20Myers"}],"type":"SPOTIFY"},{"caption":"Open in Deezer","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/deezer-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/deezer_{scalefactor}.png"},"actions":[{"name":"hub:deezer:searchdeeplink","type":"uri","uri":"deezer-query://www.deezer.com/play?query=%7Btrack%3A%27Kiss+The+Rain%27%20artist%3A%27Billie+Myers%27%7D"}],"type":"DEEZER"}],"explicit":false,"displayname":"APPLE MUSIC"},"artists":[{"id":"42","adamid":"99951"}],"url":"https://www.shazam.com/track/20066955/kiss-the-rain"},"snippet":"Kiss the rain (Kiss the rain)"},{"track":{"layout":"5","type":"MUSIC","key":"40099833","title":"Kiss The Rain","subtitle":"Yiruma","share":{"subject":"Kiss The Rain - Yiruma","text":"I used Shazam to discover Kiss The Rain by Yiruma.","href":"https://www.shazam.com/track/40099833/kiss-the-rain","image":"https://is3-ssl.mzstatic.com/image/thumb/Music115/v4/0a/d1/e8/0ad1e89c-df29-a43e-9852-eb6ece2dd556/21UMGIM24785.rgb.jpg/400x400cc.jpg","twitter":"I used @Shazam to discover Kiss The Rain by Yiruma.","html":"https://www.shazam.com/snippets/email-share/40099833?lang=en-US&country=US","avatar":"https://is4-ssl.mzstatic.com/image/thumb/Features115/v4/3f/84/4e/3f844e97-8c23-b64d-87f1-d536e99f80e9/mzl.rsxdpqqq.jpg/800x800cc.jpg","snapchat":"https://www.shazam.com/partner/sc/track/40099833"},"images":{"background":"https://is4-ssl.mzstatic.com/image/thumb/Features115/v4/3f/84/4e/3f844e97-8c23-b64d-87f1-d536e99f80e9/mzl.rsxdpqqq.jpg/800x800cc.jpg","coverart":"https://is3-ssl.mzstatic.com/image/thumb/Music115/v4/0a/d1/e8/0ad1e89c-df29-a43e-9852-eb6ece2dd556/21UMGIM24785.rgb.jpg/400x400cc.jpg","coverarthq":"https://is3-ssl.mzstatic.com/image/thumb/Music115/v4/0a/d1/e8/0ad1e89c-df29-a43e-9852-eb6ece2dd556/21UMGIM24785.rgb.jpg/400x400cc.jpg","joecolor":"b:0f1513p:f6f1ees:d7d6d1t:c7c5c2q:afafab"},"hub":{"type":"APPLEMUSIC","image":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic_{scalefactor}.png","actions":[{"name":"apple","type":"applemusicplay","id":"1576663126"},{"name":"apple","type":"uri","uri":"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/b5/71/fd/b571fdea-62b9-64e8-1531-3d845cf6ee58/mzaf_8999534599011571502.plus.aac.ep.m4a"}],"options":[{"caption":"OPEN","actions":[{"name":"hub:applemusic:deeplink","type":"applemusicopen","uri":"https://music.apple.com/us/album/kiss-the-rain/1576662868?i=1576663126&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"},{"name":"hub:applemusic:deeplink","type":"uri","uri":"https://music.apple.com/us/album/kiss-the-rain/1576662868?i=1576663126&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=music&itsct=Shazam_ios"}],"beacondata":{"type":"open","providername":"applemusic"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/overflow-open-option_{scalefactor}.png","type":"open","listcaption":"Open in Apple Music","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/applemusic-overflow_{scalefactor}.png","colouroverflowimage":false,"providername":"applemusic"},{"caption":"BUY","actions":[{"type":"uri","uri":"https://itunes.apple.com/us/album/kiss-the-rain/1576662868?i=1576663126&mttnagencyid=s2n&mttnsiteid=125115&mttn3pid=Apple-Shazam&mttnsub1=Shazam_ios&mttnsub2=5348615A-616D-3235-3830-44754D6D5973&itscg=30201&app=itunes&itsct=Shazam_ios"}],"beacondata":{"type":"buy","providername":"itunes"},"image":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","type":"buy","listcaption":"Buy on iTunes","overflowimage":"https://images.shazam.com/static/icons/hub/ios/v5/itunes-overflow-buy_{scalefactor}.png","colouroverflowimage":false,"providername":"itunes"}],"providers":[{"caption":"Open in Spotify","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/spotify-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/spotify_{scalefactor}.png"},"actions":[{"name":"hub:spotify:searchdeeplink","type":"uri","uri":"spotify:search:Kiss%20The%20Rain%20Yiruma"}],"type":"SPOTIFY"},{"caption":"Open in Deezer","images":{"overflow":"https://images.shazam.com/static/icons/hub/ios/v5/deezer-overflow_{scalefactor}.png","default":"https://images.shazam.com/static/icons/hub/ios/v5/deezer_{scalefactor}.png"},"actions":[{"name":"hub:deezer:searchdeeplink","type":"uri","uri":"deezer-query://www.deezer.com/play?query=%7Btrack%3A%27Kiss+The+Rain%27%20artist%3A%27Yiruma%27%7D"}],"type":"DEEZER"}],"explicit":false,"displayname":"APPLE MUSIC"},"artists":[{"id":"42","adamid":"73406786"}],"url":"https://www.shazam.com/track/40099833/kiss-the-rain"}}]},"artists":{"hits":[{"artist":{"avatar":"https://is3-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800bb.jpg","name":"Billie Myers","verified":false,"weburl":"https://music.apple.com/us/artist/billie-myers/99951","adamid":"99951"}},{"artist":{"avatar":"https://is5-ssl.mzstatic.com/image/thumb/Music/v4/a3/0f/07/a30f0744-d6a3-5e89-34c2-90db76b6b3c5/5054316029410_cover.jpg/800x800ac.jpg","name":"Kiss The Rain","verified":false,"weburl":"https://music.apple.com/us/artist/kiss-the-rain/881889878","adamid":"881889878"}}]}}
+ mX4 executed: 18/08/2022 10:41:09  Runtime: 0:0:3.27  Memload: 42% use  
+ 
+ ref: online
+
+https://tio.run/##pVdtT9tIEP7uXzEfkIjBkDiEXBsXJI4kd5aAREd69A4hZJxNsuCs3fW6FCF@Ozezazt2EvrlImjjeX1m9plZEz88slAdJEEaBtHBLAnf3xMZz2WwhGEQjma@UGzO5P3yW@e@fT@WQag4WnqW9brjD/uDIQzH528WwOvO5ag/gP7gYvyn//a6MxpP/Ev/37OJP7qC0ZVzdnHxhj6Di@uBMT8bjyf/jAdwPrq6Hl0MtPKq7w/fLCtLWYo21y/pV8Wj1ANoNmEWS5gzhemfwjgTqtuxwLLUS8JAXS@DKBpLvmQpnEAgZfBy2zo87B533DuIZ3ATy6lnjDGumvIfZCdZiHIUAPRR8ncQ9Va@bqvdgQMw/l@5UEdtD02ZwEBg/QikZbx6oOg/jG5kFSi9GjC0wM6GbJpJBr7gdZ1xTqSjWKrG0nl0lsHPBJV8@rNXyc9T7QE9eIjjiAXCs35ncy5QtXKA3gm0vDqY29YdiXWQRNLXI/oqWcICpXvA08SEPgElM@Zp4WMZq2aLTdQ4SVtN8njn5Xp/mJvs5ZanlFYtmMgNAB4kC55K@xnpl/G0iIxptTkU9ZlPBeUsiFLmbQ9nzsl4iLDxaJsn5A2PSkdT9qyMuZGOXFdttYuIzeaz5IpFosFVHDQSadu5ptqLleMdgk2k8S6BNZsYvY3OTjsPnEhtB/v6kAzUhBrnQrqIwO3CgetZOoAFs0zgKMYCzhcsfPLTcjQbSKWCmUR0D0RBILvCGgMB7UNAyICWPI1l6mhJmi2J9oUQjQ0/gTQYzafxMzE49K4CxX8wlBnJ9yxWTjZ30u/OlBljzV1UPpS9feZqoVHCNNaCh0rbKT22wi36nc3p8SJ@buiKDvNpLc@DQ0lt7f6dHjvF41ST5bh4fF7wiJHNFxBF8np6UwI5CWoB8BXHkCwCt4LW72HegqQrEtbiaAeqZh/P8Ava12zpM/jmTxqaj7ZXUfhIPPRzgNfEeeG32VwPM8FY98rmFY/KFBhtNRy2YP8Eu7OSmE5N2X572xjNyIN6UimiXu6vi91a6lpFvA53owVrFVbgIZdpEGDB5wsma2eN9DnFc/rgrPtsrWmcgFRwef@nvq1V5HFOTzSZ3PVA2xcZfcHFg3OTL@M0i1R1WedXE6xWA69shQ@WwKoXmtpcwK3rtO@qkHRdE0ySV4CGo36/IewNo2Gl@L9KfBsLinrrgLBroFd34yhTfh24KBaMvQG5VmINUbGihQO7aIYJcrtds6wZYv3AVOB0V8xLnHRLA8f@vSjsuBXGIqXr8DyOzoXC0XD1RXl59g2/Hx0dFbf6pIXXNS9WJiYJ48hBL9zwPagsT6uobOPtAPTbD@/pdRNjnoLMBfLqvcPvbLogKItuv0bnaZyYsbzPKaLQa5ZCEug85i@6Wp2cG0pNp3NcMpvIrpOUEhouxGFXlgjBWlub9YHMa1qNy0YhG3Nh1byKpuxOcBMwfKVjsJv3mw4YT1ZXBiJbPjCZwkzGS9MFNMNG2PV4mp5rpOx2u9pqU/yhfKvi83Gnc9Tepvmt3domPnY/dbbJ3U4Hf7a6fMbPp67W5WQ8gT@YmuCL9PkoK2gZ1sgxrJHDbbVae/RPSRFBx0r9HMlpo84W266dgSFdPFsNVNl3er9xHQxLv9h7E7FRYDMv@QeqZTcpd@9Tr@PsQmrmsdks/v648a/6o5vrNy3EzTk1JCCD4u8JpMjh@/t/
+
+Passwort checker? https://haveibeenpwned.com
+https://dnslytics.com/spf-lookup  
+
+
+  
+  
